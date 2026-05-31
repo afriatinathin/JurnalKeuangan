@@ -1,0 +1,2081 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0"
+    />
+    <title>Jurnal Keuangan ✨</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #faf7f5;
+        --bg2: #f3ede8;
+        --glass: rgba(255, 255, 255, 0.72);
+        --glass2: rgba(255, 255, 255, 0.5);
+        --border: rgba(200, 185, 175, 0.4);
+        --border2: rgba(200, 185, 175, 0.25);
+        --rose: #e8708a;
+        --rose-soft: #f4b8c6;
+        --peach: #f09a6e;
+        --peach-soft: #fad4bc;
+        --lavender: #9b87d4;
+        --lav-soft: #d5cef0;
+        --mint: #5bbfa3;
+        --mint-soft: #b4e4d8;
+        --gold: #d4a03a;
+        --gold-soft: #f5dfa0;
+        --sky: #6baed6;
+        --sky-soft: #c4dff2;
+        --text: #3a2e2b;
+        --text2: #7a6a63;
+        --text3: #b09a90;
+        --radius: 20px;
+        --radius-sm: 12px;
+        --shadow: 0 4px 24px rgba(100, 70, 60, 0.1);
+        --shadow-sm: 0 2px 12px rgba(100, 70, 60, 0.07);
+      }
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        font-family: "DM Sans", sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        min-height: 100vh;
+        overflow-x: hidden;
+      }
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        z-index: -1;
+        background:
+          radial-gradient(
+            ellipse 70% 50% at 15% 10%,
+            rgba(232, 112, 138, 0.13) 0%,
+            transparent 70%
+          ),
+          radial-gradient(
+            ellipse 60% 60% at 85% 20%,
+            rgba(155, 135, 212, 0.12) 0%,
+            transparent 70%
+          ),
+          radial-gradient(
+            ellipse 80% 50% at 50% 90%,
+            rgba(91, 191, 163, 0.1) 0%,
+            transparent 70%
+          ),
+          radial-gradient(
+            ellipse 50% 40% at 90% 70%,
+            rgba(240, 154, 110, 0.1) 0%,
+            transparent 70%
+          );
+        pointer-events: none;
+      }
+      header {
+        text-align: center;
+        padding: 44px 20px 28px;
+      }
+      .header-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: var(--glass);
+        border: 1px solid var(--border);
+        border-radius: 99px;
+        padding: 5px 14px;
+        font-size: 0.72rem;
+        font-weight: 500;
+        color: var(--text2);
+        letter-spacing: 0.5px;
+        margin-bottom: 14px;
+        backdrop-filter: blur(10px);
+      }
+      header h1 {
+        font-family: "Playfair Display", serif;
+        font-size: clamp(2rem, 6vw, 3.2rem);
+        font-weight: 700;
+        line-height: 1.15;
+        letter-spacing: -0.5px;
+        background: linear-gradient(135deg, var(--rose), var(--lavender));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+      header h1 span {
+        background: linear-gradient(135deg, var(--rose), var(--lavender));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+      header p {
+        color: var(--text2);
+        font-size: 0.88rem;
+        margin-top: 8px;
+        font-weight: 400;
+      }
+      .wrapper {
+        max-width: 880px;
+        margin: 0 auto;
+        padding: 0 16px 60px;
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+      }
+      .card {
+        background: var(--glass);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 22px 20px;
+        box-shadow: var(--shadow);
+      }
+      .card-title {
+        font-size: 0.68rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1.8px;
+        color: var(--text3);
+        margin-bottom: 18px;
+      }
+      .form-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+        gap: 12px;
+      }
+      .form-grid .span2 {
+        grid-column: span 2;
+      }
+      @media (max-width: 480px) {
+        .form-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+        .form-grid .full {
+          grid-column: 1/-1;
+        }
+      }
+      .field {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+      }
+      .field label {
+        font-size: 0.68rem;
+        font-weight: 600;
+        color: var(--text2);
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+      }
+      .field input,
+      .field select {
+        background: rgba(255, 255, 255, 0.85);
+        border: 1.5px solid var(--border);
+        border-radius: var(--radius-sm);
+        color: var(--text);
+        font-family: "DM Sans", sans-serif;
+        font-size: 0.88rem;
+        font-weight: 400;
+        padding: 10px 12px;
+        outline: none;
+        transition:
+          border-color 0.2s,
+          box-shadow 0.2s;
+        width: 100%;
+        -webkit-appearance: none;
+        appearance: none;
+      }
+      .field input:focus,
+      .field select:focus {
+        border-color: var(--rose);
+        box-shadow: 0 0 0 3px rgba(232, 112, 138, 0.12);
+      }
+      .field select option {
+        background: #fff;
+        color: var(--text);
+      }
+      .btn-add {
+        background: linear-gradient(135deg, var(--rose), var(--lavender));
+        border: none;
+        border-radius: var(--radius-sm);
+        color: #fff;
+        cursor: pointer;
+        font-family: "DM Sans", sans-serif;
+        font-size: 0.88rem;
+        font-weight: 600;
+        padding: 11px 22px;
+        width: 100%;
+        transition:
+          opacity 0.2s,
+          transform 0.15s,
+          box-shadow 0.2s;
+        box-shadow: 0 4px 14px rgba(155, 135, 212, 0.3);
+        letter-spacing: 0.2px;
+      }
+      .btn-add:hover {
+        opacity: 0.9;
+        transform: translateY(-1px);
+        box-shadow: 0 6px 18px rgba(155, 135, 212, 0.4);
+      }
+      .btn-add:active {
+        transform: translateY(0);
+      }
+      .two-col {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 18px;
+      }
+      @media (max-width: 600px) {
+        .two-col {
+          grid-template-columns: 1fr;
+        }
+      }
+      .alloc-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+      }
+      .alloc-box {
+        border-radius: var(--radius-sm);
+        padding: 14px 14px 12px;
+        position: relative;
+        overflow: hidden;
+      }
+      .alloc-box.k {
+        background: linear-gradient(
+          135deg,
+          rgba(232, 112, 138, 0.15),
+          rgba(244, 184, 198, 0.1)
+        );
+        border: 1.5px solid rgba(232, 112, 138, 0.3);
+      }
+      .alloc-box.t {
+        background: linear-gradient(
+          135deg,
+          rgba(91, 191, 163, 0.15),
+          rgba(180, 228, 216, 0.1)
+        );
+        border: 1.5px solid rgba(91, 191, 163, 0.3);
+      }
+      .alloc-box.c {
+        background: linear-gradient(
+          135deg,
+          rgba(212, 160, 58, 0.15),
+          rgba(245, 223, 160, 0.1)
+        );
+        border: 1.5px solid rgba(212, 160, 58, 0.3);
+      }
+      .alloc-box.h {
+        background: linear-gradient(
+          135deg,
+          rgba(155, 135, 212, 0.15),
+          rgba(213, 206, 240, 0.1)
+        );
+        border: 1.5px solid rgba(155, 135, 212, 0.3);
+      }
+      .alloc-box .ab-label {
+        font-size: 0.65rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: var(--text2);
+      }
+      .alloc-box .ab-pct {
+        font-size: 0.72rem;
+        color: var(--text3);
+        margin-top: 1px;
+      }
+      .alloc-box .ab-val {
+        font-size: 1rem;
+        font-weight: 700;
+        font-family: "DM Mono", monospace;
+        margin-top: 6px;
+      }
+      .alloc-box.k .ab-val {
+        color: var(--rose);
+      }
+      .alloc-box.t .ab-val {
+        color: var(--mint);
+      }
+      .alloc-box.c .ab-val {
+        color: var(--gold);
+      }
+      .alloc-box.h .ab-val {
+        color: var(--lavender);
+      }
+      .chart-wrap {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 14px;
+      }
+      canvas {
+        max-width: 200px;
+        max-height: 200px;
+      }
+      .legend {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        justify-content: center;
+      }
+      .legend-item {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        font-size: 0.72rem;
+        color: var(--text2);
+      }
+      .legend-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        flex-shrink: 0;
+      }
+      .month-nav {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-bottom: 16px;
+      }
+      .summary-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(145px, 1fr));
+        gap: 10px;
+      }
+      .s-card {
+        border-radius: var(--radius-sm);
+        padding: 14px 14px 12px;
+        border: 1.5px solid var(--border2);
+      }
+      .s-card.si {
+        background: linear-gradient(
+          135deg,
+          rgba(91, 191, 163, 0.12),
+          rgba(180, 228, 216, 0.06)
+        );
+        border-color: rgba(91, 191, 163, 0.3);
+      }
+      .s-card.sk {
+        background: linear-gradient(
+          135deg,
+          rgba(232, 112, 138, 0.1),
+          rgba(244, 184, 198, 0.06)
+        );
+        border-color: rgba(232, 112, 138, 0.25);
+      }
+      .s-card.st {
+        background: linear-gradient(
+          135deg,
+          rgba(91, 191, 163, 0.08),
+          rgba(180, 228, 216, 0.04)
+        );
+        border-color: rgba(91, 191, 163, 0.2);
+      }
+      .s-card.sc {
+        background: linear-gradient(
+          135deg,
+          rgba(212, 160, 58, 0.1),
+          rgba(245, 223, 160, 0.06)
+        );
+        border-color: rgba(212, 160, 58, 0.25);
+      }
+      .s-card.sh {
+        background: linear-gradient(
+          135deg,
+          rgba(155, 135, 212, 0.1),
+          rgba(213, 206, 240, 0.06)
+        );
+        border-color: rgba(155, 135, 212, 0.25);
+      }
+      .s-card.sa {
+        background: linear-gradient(
+          135deg,
+          rgba(107, 174, 214, 0.1),
+          rgba(196, 223, 242, 0.06)
+        );
+        border-color: rgba(107, 174, 214, 0.25);
+      }
+      .s-card.over-b {
+        background: linear-gradient(
+          135deg,
+          rgba(232, 112, 138, 0.18),
+          rgba(244, 184, 198, 0.1)
+        );
+        box-shadow: 0 0 0 1.5px rgba(232, 112, 138, 0.4);
+      }
+      .s-card .sc-label {
+        font-size: 0.62rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: var(--text2);
+      }
+      .s-card .sc-val {
+        font-size: 1rem;
+        font-weight: 700;
+        font-family: "DM Mono", monospace;
+        margin-top: 4px;
+      }
+      .s-card.si .sc-val {
+        color: var(--mint);
+      }
+      .s-card.sk .sc-val {
+        color: var(--rose);
+      }
+      .s-card.st .sc-val {
+        color: var(--mint);
+      }
+      .s-card.sc .sc-val {
+        color: var(--gold);
+      }
+      .s-card.sh .sc-val {
+        color: var(--lavender);
+      }
+      .s-card.sa .sc-val {
+        color: var(--sky);
+      }
+      .prog-wrap {
+        margin-top: 8px;
+        position: relative;
+        height: 8px;
+      }
+      .prog-track {
+        width: 100%;
+        height: 100%;
+        background: rgba(180, 160, 150, 0.18);
+        border-radius: 99px;
+        overflow: hidden;
+        position: relative;
+      }
+      .prog-fill {
+        height: 100%;
+        border-radius: 99px;
+        transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .prog-fill.n {
+        background: linear-gradient(90deg, var(--mint), var(--mint-soft));
+      }
+      .prog-fill.w {
+        background: linear-gradient(90deg, var(--gold), var(--gold-soft));
+      }
+      .prog-fill.o {
+        background: linear-gradient(90deg, var(--rose), var(--rose-soft));
+        animation: pulseR 1.2s infinite;
+      }
+      .prog-overflow {
+        position: absolute;
+        top: 0;
+        right: -2px;
+        height: 100%;
+        background: linear-gradient(90deg, var(--rose), var(--rose-soft));
+        border-radius: 0 99px 99px 0;
+        border-left: 2px solid var(--bg);
+        animation: pulseR 1.2s infinite;
+        min-width: 5px;
+      }
+      @keyframes pulseR {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.4;
+        }
+      }
+      .over-lbl {
+        font-size: 0.62rem;
+        font-weight: 700;
+        color: var(--rose);
+        margin-top: 4px;
+        animation: pulseR 1.2s infinite;
+      }
+      .prog-info {
+        font-size: 0.65rem;
+        color: var(--text3);
+        margin-top: 4px;
+      }
+      .prog-info .sisa-g {
+        color: var(--mint);
+        font-weight: 600;
+      }
+      .prog-info .sisa-r {
+        color: var(--rose);
+        font-weight: 600;
+      }
+      .section-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-bottom: 16px;
+      }
+      .section-head .card-title {
+        margin-bottom: 0;
+      }
+      .bar-chart-wrap {
+        overflow-x: auto;
+        padding-bottom: 4px;
+      }
+      .bar-chart {
+        display: flex;
+        align-items: flex-end;
+        gap: 16px;
+        min-height: 160px;
+        padding: 0 4px;
+        min-width: max-content;
+      }
+      .bar-group {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 6px;
+        min-width: 48px;
+      }
+      .bar-pair {
+        display: flex;
+        align-items: flex-end;
+        gap: 4px;
+        height: 130px;
+      }
+      .bar {
+        width: 20px;
+        border-radius: 6px 6px 0 0;
+        transition: height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        cursor: pointer;
+        min-height: 4px;
+      }
+      .bar.in {
+        background: linear-gradient(
+          180deg,
+          var(--mint),
+          rgba(91, 191, 163, 0.5)
+        );
+      }
+      .bar.out {
+        background: linear-gradient(
+          180deg,
+          var(--rose),
+          rgba(232, 112, 138, 0.5)
+        );
+      }
+      .bar:hover::after {
+        content: attr(data-tip);
+        position: absolute;
+        bottom: calc(100% + 6px);
+        left: 50%;
+        transform: translateX(-50%);
+        background: var(--text);
+        color: #fff;
+        font-size: 0.68rem;
+        font-family: "DM Mono", monospace;
+        padding: 4px 8px;
+        border-radius: 8px;
+        white-space: nowrap;
+        z-index: 10;
+      }
+      .bar-label {
+        font-size: 0.65rem;
+        color: var(--text2);
+        text-align: center;
+        white-space: nowrap;
+      }
+      .bar-legend {
+        display: flex;
+        gap: 14px;
+        margin-top: 12px;
+        justify-content: center;
+      }
+      .bar-legend-item {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 0.72rem;
+        color: var(--text2);
+      }
+      .bar-legend-dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 3px;
+      }
+      .ratio-wrap {
+        margin-top: 14px;
+      }
+      .ratio-lbl {
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.68rem;
+        color: var(--text2);
+        margin-bottom: 5px;
+      }
+      .ratio-track {
+        background: rgba(180, 160, 150, 0.18);
+        border-radius: 99px;
+        height: 8px;
+        overflow: hidden;
+        display: flex;
+      }
+      .ratio-in {
+        background: var(--mint);
+        border-radius: 99px 0 0 99px;
+        transition: width 0.5s;
+      }
+      .ratio-out {
+        background: var(--rose);
+        border-radius: 0 99px 99px 0;
+        transition: width 0.5s;
+      }
+      .ratio-note {
+        font-size: 0.68rem;
+        color: var(--text3);
+        margin-top: 6px;
+        text-align: center;
+      }
+      .spend-layout {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: 20px;
+        align-items: start;
+      }
+      @media (max-width: 540px) {
+        .spend-layout {
+          grid-template-columns: 1fr;
+        }
+      }
+      .spend-list {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+      .spend-row {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        cursor: pointer;
+        border-radius: 10px;
+        padding: 8px 10px;
+        transition: background 0.15s;
+        border: 1px solid transparent;
+      }
+      .spend-row:hover {
+        background: rgba(200, 180, 170, 0.1);
+        border-color: var(--border);
+      }
+      .spend-row.open {
+        background: rgba(200, 180, 170, 0.1);
+        border-color: var(--border);
+        border-radius: 10px 10px 0 0;
+      }
+      .spend-icon {
+        font-size: 1.1rem;
+        width: 24px;
+        text-align: center;
+        flex-shrink: 0;
+      }
+      .spend-info {
+        flex: 1;
+        min-width: 0;
+      }
+      .spend-name {
+        font-size: 0.78rem;
+        font-weight: 600;
+        color: var(--text);
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 3px;
+      }
+      .spend-name .pct-b {
+        font-size: 0.65rem;
+        font-family: "DM Mono", monospace;
+        color: var(--text3);
+      }
+      .spend-bar-bg {
+        background: rgba(180, 160, 150, 0.18);
+        border-radius: 99px;
+        height: 5px;
+        overflow: hidden;
+      }
+      .spend-bar-fill {
+        height: 100%;
+        border-radius: 99px;
+        transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .spend-desc {
+        font-size: 0.62rem;
+        color: var(--text3);
+        margin-top: 2px;
+      }
+      .spend-val {
+        font-size: 0.78rem;
+        font-family: "DM Mono", monospace;
+        font-weight: 500;
+        color: var(--rose);
+        white-space: nowrap;
+        flex-shrink: 0;
+        min-width: 82px;
+        text-align: right;
+      }
+      .spend-caret {
+        font-size: 0.65rem;
+        color: var(--text3);
+        margin-left: 2px;
+        transition: transform 0.2s;
+        flex-shrink: 0;
+      }
+      .spend-row.open .spend-caret {
+        transform: rotate(180deg);
+      }
+      .spend-detail {
+        display: none;
+        background: rgba(200, 180, 170, 0.08);
+        border: 1px solid var(--border);
+        border-top: none;
+        border-radius: 0 0 10px 10px;
+        padding: 10px 14px 12px;
+      }
+      .spend-detail.visible {
+        display: block;
+      }
+      .spend-detail-item {
+        display: flex;
+        align-items: center;
+        padding: 5px 0;
+        border-bottom: 1px solid rgba(200, 180, 170, 0.15);
+        font-size: 0.76rem;
+      }
+      .spend-detail-item:last-child {
+        border-bottom: none;
+      }
+      .spend-detail-date {
+        font-size: 0.65rem;
+        color: var(--text3);
+        font-family: "DM Mono", monospace;
+        min-width: 68px;
+        flex-shrink: 0;
+      }
+      .spend-detail-ket {
+        flex: 1;
+        color: var(--text);
+        padding: 0 8px;
+      }
+      .spend-detail-jml {
+        font-family: "DM Mono", monospace;
+        font-weight: 500;
+        color: var(--rose);
+        white-space: nowrap;
+      }
+      .table-wrap {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.82rem;
+        min-width: 440px;
+      }
+      thead th {
+        text-align: left;
+        padding: 8px 10px;
+        font-size: 0.62rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: var(--text3);
+        border-bottom: 1.5px solid var(--border);
+      }
+      tbody tr {
+        border-bottom: 1px solid rgba(200, 180, 170, 0.15);
+        transition: background 0.12s;
+      }
+      tbody tr:hover {
+        background: rgba(200, 180, 170, 0.08);
+      }
+      tbody td {
+        padding: 10px 10px;
+        vertical-align: middle;
+      }
+      .badge {
+        display: inline-block;
+        border-radius: 6px;
+        font-size: 0.65rem;
+        font-weight: 600;
+        padding: 3px 7px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+      .badge.pemasukan {
+        background: rgba(91, 191, 163, 0.15);
+        color: var(--mint);
+      }
+      .badge.pengeluaran {
+        background: rgba(232, 112, 138, 0.12);
+        color: var(--rose);
+      }
+      /* Badge khusus sisa kebutuhan */
+      .badge.sisa-kebutuhan {
+        background: rgba(91, 191, 163, 0.18);
+        color: var(--mint);
+        border: 1px solid rgba(91, 191, 163, 0.3);
+      }
+      .amount {
+        font-family: "DM Mono", monospace;
+        font-weight: 500;
+      }
+      .amount.pos {
+        color: var(--mint);
+      }
+      .amount.neg {
+        color: var(--rose);
+      }
+      .btn-del {
+        background: transparent;
+        border: 1px solid rgba(200, 180, 170, 0.3);
+        border-radius: 7px;
+        color: var(--text3);
+        cursor: pointer;
+        font-size: 0.72rem;
+        padding: 4px 9px;
+        transition:
+          border-color 0.2s,
+          color 0.2s;
+      }
+      .btn-del:hover {
+        border-color: var(--rose);
+        color: var(--rose);
+      }
+      .backup-row {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+      .backup-box {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        background: rgba(255, 255, 255, 0.55);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-sm);
+        padding: 14px 16px;
+      }
+      .backup-icon {
+        font-size: 1.5rem;
+        flex-shrink: 0;
+      }
+      .backup-info {
+        flex: 1;
+        min-width: 0;
+      }
+      .backup-title {
+        font-size: 0.82rem;
+        font-weight: 600;
+        color: var(--text);
+      }
+      .backup-desc {
+        font-size: 0.7rem;
+        color: var(--text2);
+        margin-top: 2px;
+      }
+      .btn-backup {
+        background: rgba(255, 255, 255, 0.85);
+        border: 1.5px solid var(--border);
+        border-radius: 9px;
+        color: var(--text);
+        cursor: pointer;
+        font-family: "DM Sans", sans-serif;
+        font-size: 0.78rem;
+        font-weight: 600;
+        padding: 8px 16px;
+        transition:
+          border-color 0.2s,
+          box-shadow 0.2s;
+        white-space: nowrap;
+        flex-shrink: 0;
+      }
+      .btn-backup:hover {
+        border-color: var(--rose);
+        box-shadow: 0 2px 10px rgba(232, 112, 138, 0.15);
+      }
+      .backup-meta {
+        margin-top: 10px;
+        font-size: 0.72rem;
+        color: var(--text3);
+        min-height: 16px;
+      }
+      .empty {
+        text-align: center;
+        color: var(--text3);
+        padding: 36px 0;
+        font-size: 0.85rem;
+      }
+      .toast {
+        position: fixed;
+        bottom: 24px;
+        right: 16px;
+        left: 16px;
+        max-width: 340px;
+        margin: 0 auto;
+        background: linear-gradient(135deg, var(--rose), var(--lavender));
+        color: #fff;
+        font-size: 0.82rem;
+        font-weight: 600;
+        padding: 12px 18px;
+        border-radius: var(--radius-sm);
+        box-shadow: 0 8px 24px rgba(155, 135, 212, 0.35);
+        opacity: 0;
+        transform: translateY(14px);
+        transition:
+          opacity 0.3s,
+          transform 0.3s;
+        pointer-events: none;
+        z-index: 999;
+        text-align: center;
+      }
+      .toast.show {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .divider {
+        height: 1px;
+        background: var(--border);
+        margin: 4px 0;
+      }
+      @media (max-width: 400px) {
+        .card {
+          padding: 18px 14px;
+        }
+        .alloc-grid {
+          gap: 8px;
+        }
+        .alloc-box .ab-val {
+          font-size: 0.9rem;
+        }
+      }
+      /* Sisa kebutuhan info badge */
+      .sisa-info-tag {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        background: rgba(91, 191, 163, 0.12);
+        border: 1px solid rgba(91, 191, 163, 0.3);
+        border-radius: 6px;
+        font-size: 0.62rem;
+        font-weight: 600;
+        color: var(--mint);
+        padding: 2px 7px;
+        margin-left: 6px;
+        vertical-align: middle;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="header-badge">✨ Personal Finance</div>
+      <h1>Jurnal <span>Keuangan</span></h1>
+      <p>Alokasi otomatis · Metode 60 / 15 / 15 / 10</p>
+    </header>
+
+    <div class="wrapper">
+      <!-- Form -->
+      <div class="card">
+        <div class="card-title">Tambah Transaksi</div>
+        <div class="form-grid">
+          <div class="field">
+            <label>Tanggal</label>
+            <input type="date" id="inpTanggal" />
+          </div>
+          <div class="field">
+            <label>Tipe</label>
+            <select id="inpTipe" onchange="toggleKat()">
+              <option value="pemasukan">💚 Pemasukan</option>
+              <option value="pengeluaran">🌸 Pengeluaran</option>
+            </select>
+          </div>
+          <div class="field" id="grpKat">
+            <label>Kategori</label>
+            <select
+              id="inpKat"
+              disabled
+              style="opacity: 0.4; cursor: not-allowed"
+            >
+              <option value="Makanan">🍱 Makanan</option>
+              <option value="Transportasi">🚗 Transportasi</option>
+              <option value="Rumah">🏠 Rumah / Kos</option>
+              <option value="Kesehatan">💊 Kesehatan</option>
+              <option value="Pendidikan">📚 Pendidikan</option>
+              <option value="Skincare">✨ Skincare</option>
+              <option value="Makeup">💄 Makeup</option>
+              <option value="AlatMandi">🧴 Alat Mandi</option>
+              <option value="Nyuci">🧺 Nyuci</option>
+              <option value="Pewangi">🌸 Pewangi</option>
+              <option value="Jajan">🍿 Jajan / Cemilan</option>
+              <option value="Pakaian">👕 Pakaian</option>
+              <option value="Sepatu">👟 Sepatu</option>
+              <option value="Tas">👜 Tas</option>
+              <option value="Air">💧 Air</option>
+              <option value="Healing">🎉 Healing &amp; Hiburan</option>
+              <option value="DanaCadangan">🛡️ Dana Cadangan</option>
+              <option value="Lainnya">📦 Lainnya</option>
+            </select>
+          </div>
+          <div class="field full">
+            <label>Keterangan</label>
+            <input
+              type="text"
+              id="inpKet"
+              placeholder="Gaji, makan siang, bensin…"
+            />
+          </div>
+          <div class="field">
+            <label>Jumlah (Rp)</label>
+            <input type="number" id="inpJml" placeholder="0" min="0" />
+          </div>
+          <div class="field" style="justify-content: flex-end">
+            <label style="visibility: hidden">.</label>
+            <button class="btn-add" onclick="tambah()">+ Tambah</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Alokasi + Chart -->
+      <div class="two-col">
+        <div class="card">
+          <div class="card-title">Alokasi Otomatis</div>
+          <div class="alloc-grid">
+            <div class="alloc-box k">
+              <div class="ab-label">Kebutuhan</div>
+              <div class="ab-pct">60%</div>
+              <div class="ab-val" id="aK">Rp 0</div>
+            </div>
+            <div class="alloc-box t">
+              <div class="ab-label">Tabungan</div>
+              <div class="ab-pct">15%</div>
+              <div class="ab-val" id="aT">Rp 0</div>
+            </div>
+            <div class="alloc-box c">
+              <div class="ab-label">Cadangan</div>
+              <div class="ab-pct">15%</div>
+              <div class="ab-val" id="aC">Rp 0</div>
+            </div>
+            <div class="alloc-box h">
+              <div class="ab-label">Healing</div>
+              <div class="ab-pct">10%</div>
+              <div class="ab-val" id="aH">Rp 0</div>
+            </div>
+          </div>
+          <p style="font-size: 0.62rem; color: var(--text3); margin-top: 12px">
+            Dihitung dari total pemasukan bulan terpilih
+          </p>
+        </div>
+        <div class="card">
+          <div class="card-title">Grafik Alokasi</div>
+          <div class="chart-wrap">
+            <canvas id="pieChart" width="200" height="200"></canvas>
+            <div class="legend" id="legend"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Ringkasan Bulanan -->
+      <div class="card">
+        <div class="section-head">
+          <div class="card-title">Ringkasan Bulanan</div>
+        </div>
+        <div class="month-nav">
+          <div
+            class="field"
+            style="
+              flex: 1;
+              min-width: 140px;
+              max-width: 220px;
+              margin-bottom: 0;
+            "
+          >
+            <label>Pilih Bulan</label>
+            <select id="selBulan" onchange="renderBulan()"></select>
+          </div>
+        </div>
+        <div
+          class="summary-grid"
+          style="margin-top: 14px"
+          id="summaryGrid"
+        ></div>
+      </div>
+
+      <!-- Bar Chart -->
+      <div class="card">
+        <div class="section-head">
+          <div class="card-title">Pemasukan vs Pengeluaran</div>
+          <div class="bar-filter">
+            <div class="field" style="margin-bottom: 0; min-width: 130px">
+              <select id="selBulanBar" onchange="drawBar()"></select>
+            </div>
+          </div>
+        </div>
+        <div class="bar-chart-wrap">
+          <div class="bar-chart" id="barChart"></div>
+        </div>
+        <div class="bar-legend">
+          <div class="bar-legend-item">
+            <div class="bar-legend-dot" style="background: var(--mint)"></div>
+            Pemasukan
+          </div>
+          <div class="bar-legend-item">
+            <div class="bar-legend-dot" style="background: var(--rose)"></div>
+            Pengeluaran
+          </div>
+        </div>
+        <div class="ratio-wrap" id="ratioWrap"></div>
+      </div>
+
+      <!-- Spending Breakdown -->
+      <div class="card">
+        <div class="card-title">Breakdown Pengeluaran per Kategori</div>
+        <div class="spend-layout" id="spendLayout">
+          <div class="chart-wrap">
+            <canvas id="spendPie" width="180" height="180"></canvas>
+            <div class="legend" id="spendLegend"></div>
+          </div>
+          <div class="spend-list" id="spendList"></div>
+        </div>
+        <div class="empty" id="spendEmpty" style="display: none">
+          Belum ada pengeluaran bulan ini 🌸
+        </div>
+      </div>
+
+      <!-- Riwayat -->
+      <div class="card">
+        <div class="card-title">Riwayat Transaksi</div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Tanggal</th>
+                <th>Keterangan</th>
+                <th>Tipe / Kategori</th>
+                <th>Jumlah</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="transTbody"></tbody>
+          </table>
+          <div class="empty" id="emptyState">
+            Belum ada transaksi. Yuk catat keuanganmu! 💸
+          </div>
+        </div>
+      </div>
+
+      <!-- Backup -->
+      <div class="card">
+        <div class="card-title">💾 Backup &amp; Restore</div>
+        <div class="backup-row">
+          <div class="backup-box">
+            <div class="backup-icon">📤</div>
+            <div class="backup-info">
+              <div class="backup-title">Export Backup</div>
+              <div class="backup-desc">Simpan semua data ke file JSON</div>
+            </div>
+            <button class="btn-backup" onclick="exportData()">Export</button>
+          </div>
+          <div class="backup-box">
+            <div class="backup-icon">📥</div>
+            <div class="backup-info">
+              <div class="backup-title">Import / Restore</div>
+              <div class="backup-desc">Muat data dari file backup JSON</div>
+            </div>
+            <label class="btn-backup" style="cursor: pointer">
+              Import
+              <input
+                type="file"
+                accept=".json"
+                style="display: none"
+                onchange="importData(event)"
+              />
+            </label>
+          </div>
+        </div>
+        <div class="backup-meta" id="backupMeta"></div>
+      </div>
+    </div>
+    <div class="toast" id="toast"></div>
+
+    <script>
+      let data = JSON.parse(localStorage.getItem("keuangan_v2") || "[]");
+
+      const KATEGORI = [
+        {
+          key: "Makanan",
+          icon: "🍱",
+          color: "#f09a6e",
+          desc: "Makan siang, makan malam, warung, restoran.",
+        },
+        {
+          key: "Transportasi",
+          icon: "🚗",
+          color: "#6baed6",
+          desc: "Bensin, ojek online, angkot, parkir, tol.",
+        },
+        {
+          key: "Rumah",
+          icon: "🏠",
+          color: "#9b87d4",
+          desc: "Kos, kontrakan, listrik, internet, gas.",
+        },
+        {
+          key: "Kesehatan",
+          icon: "💊",
+          color: "#5bbfa3",
+          desc: "Obat-obatan, dokter, vitamin, apotek.",
+        },
+        {
+          key: "Pendidikan",
+          icon: "📚",
+          color: "#d4a03a",
+          desc: "Kursus, buku, biaya sekolah, pelatihan.",
+        },
+        {
+          key: "Skincare",
+          icon: "✨",
+          color: "#e8708a",
+          desc: "Serum, moisturizer, sunscreen, toner.",
+        },
+        {
+          key: "Makeup",
+          icon: "💄",
+          color: "#c9608a",
+          desc: "Foundation, lipstik, mascara, brush.",
+        },
+        {
+          key: "AlatMandi",
+          icon: "🧴",
+          color: "#5ce8f2",
+          desc: "Sabun, shampo, sikat gigi, pasta gigi.",
+        },
+        {
+          key: "Nyuci",
+          icon: "🧺",
+          color: "#7affca",
+          desc: "Laundry kiloan, detergen, pewangi.",
+        },
+        {
+          key: "Pewangi",
+          icon: "🌸",
+          color: "#f4b8c6",
+          desc: "Pewangi pakaian, pengharum ruangan, parfum.",
+        },
+        {
+          key: "Jajan",
+          icon: "🍿",
+          color: "#f5c842",
+          desc: "Cemilan, minuman kekinian, jajan.",
+        },
+        {
+          key: "Pakaian",
+          icon: "👕",
+          color: "#b87dfa",
+          desc: "Baju, kaos, celana, jaket.",
+        },
+        {
+          key: "Sepatu",
+          icon: "👟",
+          color: "#fb923c",
+          desc: "Sneakers, sandal, sepatu formal.",
+        },
+        {
+          key: "Tas",
+          icon: "👜",
+          color: "#e879a0",
+          desc: "Tas ransel, tote bag, dompet.",
+        },
+        {
+          key: "Air",
+          icon: "💧",
+          color: "#38bdf8",
+          desc: "Galon air minum, PDAM.",
+        },
+        {
+          key: "Healing",
+          icon: "🎉",
+          color: "#9b87d4",
+          desc: "Nonton film, wisata, karaoke, hangout.",
+        },
+        {
+          key: "DanaCadangan",
+          icon: "🛡️",
+          color: "#d4a03a",
+          desc: "Simpanan untuk kebutuhan tak terduga.",
+        },
+        {
+          key: "Lainnya",
+          icon: "📦",
+          color: "#b09a90",
+          desc: "Pengeluaran lain-lain.",
+        },
+      ];
+
+      const RATIO = { k: 0.6, t: 0.15, c: 0.15, h: 0.1 };
+
+      // ── Nama bulan lengkap (Indonesia) ──
+      const NAMA_BULAN = [
+        "Januari",
+        "Februari",
+        "Maret",
+        "April",
+        "Mei",
+        "Juni",
+        "Juli",
+        "Agustus",
+        "September",
+        "Oktober",
+        "November",
+        "Desember",
+      ];
+
+      function toggleKat() {
+        const t = document.getElementById("inpTipe").value;
+        const s = document.getElementById("inpKat");
+        if (t === "pengeluaran") {
+          s.disabled = false;
+          s.style.opacity = "1";
+          s.style.cursor = "pointer";
+        } else {
+          s.disabled = true;
+          s.style.opacity = "0.4";
+          s.style.cursor = "not-allowed";
+          s.selectedIndex = 0;
+        }
+      }
+      function save() {
+        localStorage.setItem("keuangan_v2", JSON.stringify(data));
+      }
+      function fmt(n) {
+        return "Rp " + Math.round(n).toLocaleString("id-ID");
+      }
+      function bulanOf(d) {
+        return d ? d.substring(0, 7) : null;
+      }
+      function monthLbl(ym) {
+        const [y, m] = ym.split("-");
+        return (
+          [
+            "Jan",
+            "Feb",
+            "Mar",
+            "Apr",
+            "Mei",
+            "Jun",
+            "Jul",
+            "Agu",
+            "Sep",
+            "Okt",
+            "Nov",
+            "Des",
+          ][+m - 1] +
+          " " +
+          y
+        );
+      }
+      function fmtDate(d) {
+        if (!d) return "—";
+        const [y, m, day] = d.split("-");
+        return (
+          +day +
+          " " +
+          [
+            "Jan",
+            "Feb",
+            "Mar",
+            "Apr",
+            "Mei",
+            "Jun",
+            "Jul",
+            "Agu",
+            "Sep",
+            "Okt",
+            "Nov",
+            "Des",
+          ][+m - 1] +
+          " " +
+          y
+        );
+      }
+
+      // ── Hitung sisa kebutuhan bulan tertentu (tidak termasuk sisa rollover yang sudah masuk) ──
+      function hitungSisaKebutuhan(bulan) {
+        const rows = data.filter(
+          (d) => (d.bulan || bulanOf(d.tanggal)) === bulan && !d._isRollover,
+        );
+        const totalIn = rows
+          .filter((r) => r.tipe === "pemasukan")
+          .reduce((s, r) => s + r.jml, 0);
+        const outC = rows
+          .filter(
+            (r) => r.tipe === "pengeluaran" && r.kategori === "DanaCadangan",
+          )
+          .reduce((s, r) => s + r.jml, 0);
+        const outH = rows
+          .filter((r) => r.tipe === "pengeluaran" && r.kategori === "Healing")
+          .reduce((s, r) => s + r.jml, 0);
+        const outK =
+          rows
+            .filter((r) => r.tipe === "pengeluaran")
+            .reduce((s, r) => s + r.jml, 0) -
+          outC -
+          outH;
+        const aK = totalIn * RATIO.k;
+        const sisa = aK - outK;
+        return sisa > 0 ? sisa : 0;
+      }
+
+      // ── Dapat bulan berikutnya dari string YYYY-MM ──
+      function nextMonth(ym) {
+        const [y, m] = ym.split("-").map(Number);
+        const d = new Date(y, m, 1); // m is 0-based here since JS months are 0-indexed but m from split is 1-indexed → new Date(y, m) gives next month
+        return (
+          d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0")
+        );
+      }
+
+      // ── Cek & buat entri rollover sisa kebutuhan ke bulan berikutnya ──
+      // Dipanggil setiap kali data berubah atau saat init
+      function prosesRollover() {
+        // Kumpulkan semua bulan yang ada (kecuali bulan saat ini dan setelahnya)
+        const now = new Date();
+        const bulanSekarang =
+          now.getFullYear() + "-" + String(now.getMonth() + 1).padStart(2, "0");
+
+        const allBulan = [
+          ...new Set(data.map((d) => d.bulan || bulanOf(d.tanggal))),
+        ]
+          .filter(Boolean)
+          .sort();
+
+        let changed = false;
+
+        for (const bln of allBulan) {
+          // Hanya proses bulan yang sudah lewat (bukan bulan sekarang)
+          if (bln >= bulanSekarang) continue;
+
+          const nextBln = nextMonth(bln);
+          const [yPrev, mPrev] = bln.split("-").map(Number);
+          const namaBulanPrev = NAMA_BULAN[mPrev - 1];
+
+          // Cek apakah rollover untuk bulan ini ke bulan berikutnya sudah ada
+          const rolloverKey = `rollover_${bln}`;
+          const alreadyExists = data.some(
+            (d) => d._rolloverKey === rolloverKey,
+          );
+
+          if (!alreadyExists) {
+            const sisa = hitungSisaKebutuhan(bln);
+            if (sisa > 0) {
+              // Buat entri rollover tanggal 1 bulan berikutnya
+              const [yNext, mNext] = nextBln.split("-").map(Number);
+              const tanggalRollover = `${yNext}-${String(mNext).padStart(2, "0")}-01`;
+
+              data.push({
+                id: Date.now() + Math.random(),
+                tanggal: tanggalRollover,
+                bulan: nextBln,
+                tipe: "pemasukan",
+                ket: `Sisa kebutuhan bulan ${namaBulanPrev}`,
+                jml: sisa,
+                kategori: "",
+                _isRollover: true,
+                _rolloverKey: rolloverKey,
+                _rolloverDari: bln,
+              });
+              changed = true;
+            }
+          } else {
+            // Rollover sudah ada — perlu di-recalculate karena data mungkin berubah
+            const existingRollover = data.find(
+              (d) => d._rolloverKey === rolloverKey,
+            );
+            if (existingRollover) {
+              const sisa = hitungSisaKebutuhan(bln);
+              if (sisa > 0) {
+                if (Math.round(existingRollover.jml) !== Math.round(sisa)) {
+                  existingRollover.jml = sisa;
+                  changed = true;
+                }
+              } else {
+                // Tidak ada sisa, hapus rollover
+                data = data.filter((d) => d._rolloverKey !== rolloverKey);
+                changed = true;
+              }
+            }
+          }
+        }
+
+        if (changed) save();
+      }
+
+      window.addEventListener("DOMContentLoaded", () => {
+        document.getElementById("inpTanggal").value = new Date()
+          .toISOString()
+          .slice(0, 10);
+        prosesRollover();
+        buildSelects();
+        renderBulan();
+        drawBar();
+      });
+
+      function buildSelects() {
+        const months = [
+          ...new Set(data.map((d) => d.bulan || bulanOf(d.tanggal))),
+        ]
+          .filter(Boolean)
+          .sort()
+          .reverse();
+        const now = new Date();
+        const ym =
+          now.getFullYear() + "-" + String(now.getMonth() + 1).padStart(2, "0");
+        if (!months.includes(ym)) months.unshift(ym);
+        const opts = months
+          .map((m) => `<option value="${m}">${monthLbl(m)}</option>`)
+          .join("");
+        document.getElementById("selBulan").innerHTML = opts;
+        document.getElementById("selBulanBar").innerHTML = opts;
+      }
+
+      function tambah() {
+        const tanggal = document.getElementById("inpTanggal").value;
+        const tipe = document.getElementById("inpTipe").value;
+        const ket = document.getElementById("inpKet").value.trim();
+        const jml = parseFloat(document.getElementById("inpJml").value);
+        const kat =
+          tipe === "pengeluaran" ? document.getElementById("inpKat").value : "";
+        if (!tanggal || !ket || isNaN(jml) || jml <= 0) {
+          showToast("⚠️ Lengkapi semua field!", "#e8708a");
+          return;
+        }
+        data.push({
+          id: Date.now(),
+          tanggal,
+          bulan: bulanOf(tanggal),
+          tipe,
+          ket,
+          jml,
+          kategori: kat,
+        });
+        save();
+        // Recalculate rollover setelah tambah transaksi
+        prosesRollover();
+        document.getElementById("inpKet").value = "";
+        document.getElementById("inpJml").value = "";
+        buildSelects();
+        document.getElementById("selBulan").value = bulanOf(tanggal);
+        document.getElementById("selBulanBar").value = bulanOf(tanggal);
+        renderBulan();
+        drawBar();
+        showToast("✓ Transaksi ditambahkan");
+      }
+
+      function hapus(id) {
+        const item = data.find((d) => d.id === id);
+        // Jika yang dihapus adalah rollover, langsung hapus saja
+        data = data.filter((d) => d.id !== id);
+        // Jika rollover dihapus manual, tandai sebagai "diabaikan" agar tidak dibuat ulang
+        // (kita tidak recreate rollover yang sudah dihapus manual, tapi jika transaksi normal dihapus, recalculate)
+        if (item && item._isRollover) {
+          // Hapus permanen, tambahkan flag di localStorage agar tidak dibuat ulang
+          const ignored = JSON.parse(
+            localStorage.getItem("rollover_ignored") || "[]",
+          );
+          if (!ignored.includes(item._rolloverKey)) {
+            ignored.push(item._rolloverKey);
+            localStorage.setItem("rollover_ignored", JSON.stringify(ignored));
+          }
+        }
+        save();
+        prosesRollover();
+        buildSelects();
+        renderBulan();
+        drawBar();
+      }
+
+      // Override prosesRollover untuk cek ignored list
+      const _prosesRolloverOri = prosesRollover;
+      window.prosesRollover = function () {
+        const ignored = JSON.parse(
+          localStorage.getItem("rollover_ignored") || "[]",
+        );
+        const now = new Date();
+        const bulanSekarang =
+          now.getFullYear() + "-" + String(now.getMonth() + 1).padStart(2, "0");
+        const allBulan = [
+          ...new Set(data.map((d) => d.bulan || bulanOf(d.tanggal))),
+        ]
+          .filter(Boolean)
+          .sort();
+        let changed = false;
+        for (const bln of allBulan) {
+          if (bln >= bulanSekarang) continue;
+          const nextBln = nextMonth(bln);
+          const [yPrev, mPrev] = bln.split("-").map(Number);
+          const namaBulanPrev = NAMA_BULAN[mPrev - 1];
+          const rolloverKey = `rollover_${bln}`;
+          if (ignored.includes(rolloverKey)) continue;
+          const alreadyExists = data.some(
+            (d) => d._rolloverKey === rolloverKey,
+          );
+          if (!alreadyExists) {
+            const sisa = hitungSisaKebutuhan(bln);
+            if (sisa > 0) {
+              const [yNext, mNext] = nextBln.split("-").map(Number);
+              const tanggalRollover = `${yNext}-${String(mNext).padStart(2, "0")}-01`;
+              data.push({
+                id: Date.now() + Math.random(),
+                tanggal: tanggalRollover,
+                bulan: nextBln,
+                tipe: "pemasukan",
+                ket: `Sisa kebutuhan bulan ${namaBulanPrev}`,
+                jml: sisa,
+                kategori: "",
+                _isRollover: true,
+                _rolloverKey: rolloverKey,
+                _rolloverDari: bln,
+              });
+              changed = true;
+            }
+          } else {
+            const existingRollover = data.find(
+              (d) => d._rolloverKey === rolloverKey,
+            );
+            if (existingRollover) {
+              const sisa = hitungSisaKebutuhan(bln);
+              if (sisa > 0) {
+                if (Math.round(existingRollover.jml) !== Math.round(sisa)) {
+                  existingRollover.jml = sisa;
+                  changed = true;
+                }
+              } else {
+                data = data.filter((d) => d._rolloverKey !== rolloverKey);
+                changed = true;
+              }
+            }
+          }
+        }
+        if (changed) save();
+      };
+
+      function renderBulan() {
+        const bulan = document.getElementById("selBulan").value;
+        const rows = data.filter(
+          (d) => (d.bulan || bulanOf(d.tanggal)) === bulan,
+        );
+
+        const totalIn = rows
+          .filter((r) => r.tipe === "pemasukan")
+          .reduce((s, r) => s + r.jml, 0);
+        const totalOut = rows
+          .filter((r) => r.tipe === "pengeluaran")
+          .reduce((s, r) => s + r.jml, 0);
+        const outC = rows
+          .filter(
+            (r) => r.tipe === "pengeluaran" && r.kategori === "DanaCadangan",
+          )
+          .reduce((s, r) => s + r.jml, 0);
+        const outH = rows
+          .filter((r) => r.tipe === "pengeluaran" && r.kategori === "Healing")
+          .reduce((s, r) => s + r.jml, 0);
+        const outK = totalOut - outC - outH;
+        const saldo = totalIn - totalOut;
+
+        const aK = totalIn * RATIO.k,
+          aT = totalIn * RATIO.t,
+          aC = totalIn * RATIO.c,
+          aH = totalIn * RATIO.h;
+        document.getElementById("aK").textContent = fmt(aK);
+        document.getElementById("aT").textContent = fmt(aT);
+        document.getElementById("aC").textContent = fmt(aC);
+        document.getElementById("aH").textContent = fmt(aH);
+
+        function prog(used, budget) {
+          const pct = budget > 0 ? (used / budget) * 100 : 0;
+          const over = used > budget && budget > 0;
+          const warn = !over && pct >= 75;
+          const fc = over ? "o" : warn ? "w" : "n";
+          const sisa = budget - used;
+          const ovfW = over
+            ? Math.min(40, ((used - budget) / budget) * 100)
+            : 0;
+          return `
+            <div class="prog-wrap">
+              <div class="prog-track"><div class="prog-fill ${fc}" style="width:${over ? 100 : Math.min(100, pct)}%"></div></div>
+              ${over ? `<div class="prog-overflow" style="width:${ovfW}%"></div>` : ""}
+            </div>
+            ${
+              over
+                ? `<div class="over-lbl">⚠️ Over +${fmt(used - budget)} (${Math.round(pct)}%)</div>`
+                : `<div class="prog-info">${fmt(used)} terpakai · <span class="${sisa >= 0 ? "sisa-g" : "sisa-r"}">${fmt(Math.abs(sisa))} ${sisa >= 0 ? "sisa" : "lebih"}</span></div>`
+            }`;
+        }
+
+        const overK = outK > aK && aK > 0,
+          overC = outC > aC && aC > 0,
+          overH = outH > aH && aH > 0;
+
+        document.getElementById("summaryGrid").innerHTML = `
+          <div class="s-card si"><div class="sc-label">Total Pemasukan</div><div class="sc-val">${fmt(totalIn)}</div></div>
+          <div class="s-card sk${overK ? " over-b" : ""}">
+            <div class="sc-label">Kebutuhan Pokok (60%)</div>
+            <div class="sc-val">${fmt(aK)}</div>
+            ${prog(outK, aK)}
+          </div>
+          <div class="s-card st">
+            <div class="sc-label">Tabungan (15%)</div>
+            <div class="sc-val">${fmt(aT)}</div>
+            <div class="prog-info" style="margin-top:6px">Alokasikan ke rekening tabungan</div>
+          </div>
+          <div class="s-card sc${overC ? " over-b" : ""}">
+            <div class="sc-label">Dana Cadangan (15%)</div>
+            <div class="sc-val">${fmt(aC)}</div>
+            ${prog(outC, aC)}
+          </div>
+          <div class="s-card sh${overH ? " over-b" : ""}">
+            <div class="sc-label">Healing &amp; Hiburan (10%)</div>
+            <div class="sc-val">${fmt(aH)}</div>
+            ${prog(outH, aH)}
+          </div>
+          <div class="s-card sa"><div class="sc-label">Saldo Aktual</div><div class="sc-val">${fmt(saldo)}</div></div>`;
+
+        // Table
+        const tbody = document.getElementById("transTbody");
+        const empty = document.getElementById("emptyState");
+        if (!rows.length) {
+          tbody.innerHTML = "";
+          empty.style.display = "";
+        } else {
+          empty.style.display = "none";
+          tbody.innerHTML = [...rows]
+            .sort((a, b) => (b.tanggal || "").localeCompare(a.tanggal || ""))
+            .map((r) => {
+              const k = KATEGORI.find((x) => x.key === r.kategori);
+              const isRollover = !!r._isRollover;
+              return `<tr>
+                <td style="color:var(--text3);white-space:nowrap;font-size:0.75rem">${fmtDate(r.tanggal)}</td>
+                <td>
+                  ${r.ket}
+                  ${isRollover ? `<span class="sisa-info-tag">↩ rollover</span>` : ""}
+                </td>
+                <td>
+                  ${
+                    isRollover
+                      ? `<span class="badge sisa-kebutuhan">💚 pemasukan</span>`
+                      : `<span class="badge ${r.tipe}">${r.tipe === "pemasukan" ? "💚" : "🌸"} ${r.tipe}</span>`
+                  }
+                  ${k ? `<span style="margin-left:5px;font-size:0.78rem">${k.icon} <span style="font-size:0.65rem;color:var(--text3)">${k.key}</span></span>` : ""}
+                </td>
+                <td class="amount ${r.tipe === "pemasukan" ? "pos" : "neg"}" style="white-space:nowrap">
+                  ${r.tipe === "pemasukan" ? "+" : "-"}${fmt(r.jml)}
+                </td>
+                <td><button class="btn-del" onclick="hapus(${r.id})">✕</button></td>
+              </tr>`;
+            })
+            .join("");
+        }
+
+        drawPie(aK, aT, aC, aH);
+        drawSpendPie(rows);
+      }
+
+      function drawPie(k, t, c, h) {
+        const cv = document.getElementById("pieChart"),
+          ctx = cv.getContext("2d");
+        const W = cv.width,
+          H = cv.height,
+          cx = W / 2,
+          cy = H / 2,
+          r = Math.min(W, H) / 2 - 12;
+        ctx.clearRect(0, 0, W, H);
+        const total = k + t + c + h;
+        if (!total) {
+          ctx.fillStyle = "rgba(200,185,175,0.20)";
+          ctx.beginPath();
+          ctx.arc(cx, cy, r, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.fillStyle = "var(--text3)";
+          ctx.font = "11px DM Sans,sans-serif";
+          ctx.textAlign = "center";
+          ctx.textBaseline = "middle";
+          ctx.fillText("Belum ada pemasukan", cx, cy);
+          document.getElementById("legend").innerHTML = "";
+          return;
+        }
+        const slices = [
+          { l: "Kebutuhan 60%", v: k, c: "#e8708a" },
+          { l: "Tabungan 15%", v: t, c: "#5bbfa3" },
+          { l: "Cadangan 15%", v: c, c: "#d4a03a" },
+          { l: "Healing 10%", v: h, c: "#9b87d4" },
+        ];
+        let a = -Math.PI / 2;
+        slices.forEach((s) => {
+          const sw = (s.v / total) * Math.PI * 2;
+          ctx.beginPath();
+          ctx.moveTo(cx, cy);
+          ctx.arc(cx, cy, r, a, a + sw);
+          ctx.closePath();
+          ctx.fillStyle = s.c;
+          ctx.fill();
+          ctx.strokeStyle = "#faf7f5";
+          ctx.lineWidth = 2.5;
+          ctx.stroke();
+          a += sw;
+        });
+        ctx.beginPath();
+        ctx.arc(cx, cy, r * 0.54, 0, Math.PI * 2);
+        const gr = ctx.createRadialGradient(cx, cy, 0, cx, cy, r * 0.54);
+        gr.addColorStop(0, "#fff");
+        gr.addColorStop(1, "#faf7f5");
+        ctx.fillStyle = gr;
+        ctx.fill();
+        ctx.fillStyle = "#3a2e2b";
+        ctx.font = "bold 12px DM Mono,monospace";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillText(fmt(total), cx, cy - 7);
+        ctx.fillStyle = "#b09a90";
+        ctx.font = "9px DM Sans,sans-serif";
+        ctx.fillText("Pemasukan", cx, cy + 7);
+        document.getElementById("legend").innerHTML = slices
+          .map(
+            (s) =>
+              `<div class="legend-item"><div class="legend-dot" style="background:${s.c}"></div>${s.l}</div>`,
+          )
+          .join("");
+      }
+
+      function drawBar() {
+        const bln = document.getElementById("selBulanBar").value;
+        const rows = data.filter(
+          (d) => (d.bulan || bulanOf(d.tanggal)) === bln,
+        );
+        const inc = rows
+          .filter((r) => r.tipe === "pemasukan")
+          .reduce((s, r) => s + r.jml, 0);
+        const out = rows
+          .filter((r) => r.tipe === "pengeluaran")
+          .reduce((s, r) => s + r.jml, 0);
+        const mx = Math.max(inc, out, 1);
+        const H = 130;
+        const hIn = Math.max(4, Math.round((inc / mx) * H));
+        const hOut = Math.max(4, Math.round((out / mx) * H));
+        document.getElementById("barChart").innerHTML = `
+          <div class="bar-group">
+            <div class="bar-pair">
+              <div class="bar in" style="height:${hIn}px" data-tip="${fmt(inc)}"></div>
+              <div class="bar out" style="height:${hOut}px" data-tip="${fmt(out)}"></div>
+            </div>
+            <div class="bar-label">${monthLbl(bln)}</div>
+          </div>`;
+        const tot = inc + out;
+        const pI = tot ? Math.round((inc / tot) * 100) : 50;
+        const pO = tot ? Math.round((out / tot) * 100) : 50;
+        document.getElementById("ratioWrap").innerHTML = `
+          <div class="ratio-lbl">
+            <span>💚 Pemasukan ${pI}% — ${fmt(inc)}</span>
+            <span>${fmt(out)} — ${pO}% Pengeluaran 🌸</span>
+          </div>
+          <div class="ratio-track">
+            <div class="ratio-in" style="width:${pI}%"></div>
+            <div class="ratio-out" style="width:${pO}%"></div>
+          </div>
+          <div class="ratio-note">${inc >= out ? `✅ Surplus ${fmt(inc - out)}` : `⚠️ Defisit ${fmt(out - inc)} — pengeluaran melebihi pemasukan`}</div>`;
+      }
+
+      function drawSpendPie(rows) {
+        const cv = document.getElementById("spendPie"),
+          ctx = cv.getContext("2d");
+        const W = cv.width,
+          H = cv.height,
+          cx = W / 2,
+          cy = H / 2,
+          r = Math.min(W, H) / 2 - 12;
+        ctx.clearRect(0, 0, W, H);
+        const layout = document.getElementById("spendLayout"),
+          empty = document.getElementById("spendEmpty");
+        const listEl = document.getElementById("spendList"),
+          legendEl = document.getElementById("spendLegend");
+
+        const out = rows.filter((r) => r.tipe === "pengeluaran");
+        const tot = out.reduce((s, r) => s + r.jml, 0);
+        if (!tot) {
+          layout.style.display = "none";
+          empty.style.display = "";
+          return;
+        }
+        layout.style.display = "";
+        empty.style.display = "none";
+
+        const map = {};
+        out.forEach((r) => {
+          const k = r.kategori || "Lainnya";
+          map[k] = (map[k] || 0) + r.jml;
+        });
+        const slices = KATEGORI.filter((k) => map[k.key])
+          .map((k) => ({ ...k, val: map[k.key] }))
+          .sort((a, b) => b.val - a.val);
+
+        let a = -Math.PI / 2;
+        slices.forEach((s) => {
+          const sw = (s.val / tot) * Math.PI * 2;
+          ctx.beginPath();
+          ctx.moveTo(cx, cy);
+          ctx.arc(cx, cy, r, a, a + sw);
+          ctx.closePath();
+          ctx.fillStyle = s.color;
+          ctx.fill();
+          ctx.strokeStyle = "#faf7f5";
+          ctx.lineWidth = 2.5;
+          ctx.stroke();
+          a += sw;
+        });
+        ctx.beginPath();
+        ctx.arc(cx, cy, r * 0.54, 0, Math.PI * 2);
+        const gr = ctx.createRadialGradient(cx, cy, 0, cx, cy, r * 0.54);
+        gr.addColorStop(0, "#fff");
+        gr.addColorStop(1, "#faf7f5");
+        ctx.fillStyle = gr;
+        ctx.fill();
+        ctx.fillStyle = "#3a2e2b";
+        ctx.font = "bold 11px DM Mono,monospace";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillText(fmt(tot), cx, cy - 6);
+        ctx.fillStyle = "#b09a90";
+        ctx.font = "9px DM Sans,sans-serif";
+        ctx.fillText("Total Keluar", cx, cy + 7);
+
+        legendEl.innerHTML = slices
+          .map(
+            (s) =>
+              `<div class="legend-item"><div class="legend-dot" style="background:${s.color}"></div>${s.icon} ${s.key}</div>`,
+          )
+          .join("");
+
+        listEl.innerHTML = slices
+          .map((s) => {
+            const pct = Math.round((s.val / tot) * 100);
+            const txs = out
+              .filter((r) => (r.kategori || "Lainnya") === s.key)
+              .sort((a, b) => (b.tanggal || "").localeCompare(a.tanggal || ""));
+            const details = txs
+              .map(
+                (r) => `
+            <div class="spend-detail-item">
+              <span class="spend-detail-date">${fmtDate(r.tanggal)}</span>
+              <span class="spend-detail-ket">${r.ket}</span>
+              <span class="spend-detail-jml">${fmt(r.jml)}</span>
+            </div>`,
+              )
+              .join("");
+            return `
+            <div class="spend-row" id="sr-${s.key}" onclick="toggleDetail('sd-${s.key}','sr-${s.key}')">
+              <div class="spend-icon">${s.icon}</div>
+              <div class="spend-info">
+                <div class="spend-name"><span>${s.key}</span><span class="pct-b">${pct}%</span></div>
+                <div class="spend-bar-bg"><div class="spend-bar-fill" style="width:${pct}%;background:${s.color}"></div></div>
+                <div class="spend-desc">${s.desc}</div>
+              </div>
+              <div class="spend-val">${fmt(s.val)}</div>
+              <span class="spend-caret">▼</span>
+            </div>
+            <div class="spend-detail" id="sd-${s.key}">${details || "<div style='font-size:0.72rem;color:var(--text3);padding:4px 0'>Tidak ada transaksi</div>"}</div>`;
+          })
+          .join("");
+      }
+
+      function toggleDetail(did, rid) {
+        document.getElementById(did).classList.toggle("visible");
+        document.getElementById(rid).classList.toggle("open");
+      }
+
+      function exportData() {
+        if (!data.length) {
+          showToast("⚠️ Belum ada data", "#e8708a");
+          return;
+        }
+        const now = new Date();
+        const stamp = now.toISOString().slice(0, 10);
+        const blob = new Blob(
+          [
+            JSON.stringify(
+              {
+                exportedAt: now.toISOString(),
+                totalTransaksi: data.length,
+                data,
+              },
+              null,
+              2,
+            ),
+          ],
+          { type: "application/json" },
+        );
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `jurnal-keuangan-${stamp}.json`;
+        a.click();
+        URL.revokeObjectURL(url);
+        document.getElementById("backupMeta").textContent =
+          `✅ Export ${data.length} transaksi · ${stamp}`;
+        showToast("✓ Backup berhasil didownload");
+      }
+
+      function importData(e) {
+        const file = e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = (ev) => {
+          try {
+            const p = JSON.parse(ev.target.result);
+            const imp = Array.isArray(p) ? p : p.data || [];
+            if (!Array.isArray(imp) || !imp.length) throw new Error();
+            imp.forEach((d) => {
+              if (!d.bulan && d.tanggal) d.bulan = bulanOf(d.tanggal);
+            });
+            const ex = new Set(data.map((d) => d.id));
+            const nw = imp.filter((d) => d.id && !ex.has(d.id));
+            const dup = imp.length - nw.length;
+            data = [...data, ...nw];
+            save();
+            prosesRollover();
+            buildSelects();
+            renderBulan();
+            drawBar();
+            document.getElementById("backupMeta").textContent =
+              `✅ Import ${nw.length} transaksi${dup ? `, ${dup} duplikat dilewati` : ""}`;
+            showToast(`✓ Import ${nw.length} transaksi`);
+          } catch {
+            showToast("⚠️ File tidak valid", "#e8708a");
+          }
+          e.target.value = "";
+        };
+        reader.readAsText(file);
+      }
+
+      function showToast(msg, bg) {
+        const t = document.getElementById("toast");
+        t.textContent = msg;
+        if (bg) t.style.background = bg;
+        else t.style.background = "";
+        t.classList.add("show");
+        setTimeout(() => t.classList.remove("show"), 2400);
+      }
+    </script>
+  </body>
+</html>

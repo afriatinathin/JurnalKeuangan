@@ -963,19 +963,99 @@
           font-size: 0.9rem;
         }
       }
-      /* Sisa kebutuhan info badge */
-      .sisa-info-tag {
-        display: inline-flex;
-        align-items: center;
+      /* ── Celengan ── */
+      .cel-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+      }
+      @media (max-width: 580px) {
+        .cel-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+      .cel-box {
+        border-radius: var(--radius-sm);
+        padding: 18px 16px 14px;
+        display: flex;
+        flex-direction: column;
         gap: 4px;
-        background: rgba(91, 191, 163, 0.12);
-        border: 1px solid rgba(91, 191, 163, 0.3);
-        border-radius: 6px;
+      }
+      .cel-box.cel-t {
+        background: linear-gradient(
+          135deg,
+          rgba(91, 191, 163, 0.14),
+          rgba(180, 228, 216, 0.08)
+        );
+        border: 1.5px solid rgba(91, 191, 163, 0.3);
+      }
+      .cel-box.cel-c {
+        background: linear-gradient(
+          135deg,
+          rgba(212, 160, 58, 0.14),
+          rgba(245, 223, 160, 0.08)
+        );
+        border: 1.5px solid rgba(212, 160, 58, 0.3);
+      }
+      .cel-box.cel-h {
+        background: linear-gradient(
+          135deg,
+          rgba(155, 135, 212, 0.14),
+          rgba(213, 206, 240, 0.08)
+        );
+        border: 1.5px solid rgba(155, 135, 212, 0.3);
+      }
+      .cel-icon {
+        font-size: 1.4rem;
+        margin-bottom: 2px;
+      }
+      .cel-label {
+        font-size: 0.7rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+        color: var(--text2);
+      }
+      .cel-sub {
         font-size: 0.62rem;
+        color: var(--text3);
+        margin-bottom: 4px;
+      }
+      .cel-val {
+        font-size: 1.25rem;
+        font-weight: 700;
+        font-family: "DM Mono", monospace;
+        margin-top: 2px;
+      }
+      .cel-table-wrap {
+        overflow-x: auto;
+        margin-top: 18px;
+      }
+      .cel-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.8rem;
+        min-width: 380px;
+      }
+      .cel-table thead th {
+        text-align: left;
+        padding: 7px 10px;
+        font-size: 0.6rem;
         font-weight: 600;
-        color: var(--mint);
-        padding: 2px 7px;
-        margin-left: 6px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: var(--text3);
+        border-bottom: 1.5px solid var(--border);
+      }
+      .cel-table tbody tr {
+        border-bottom: 1px solid rgba(200, 180, 170, 0.12);
+        transition: background 0.12s;
+      }
+      .cel-table tbody tr:hover {
+        background: rgba(200, 180, 170, 0.07);
+      }
+      .cel-table tbody td {
+        padding: 8px 10px;
         vertical-align: middle;
       }
     </style>
@@ -1152,6 +1232,38 @@
         </div>
         <div class="empty" id="spendEmpty" style="display: none">
           Belum ada pengeluaran bulan ini 🌸
+        </div>
+      </div>
+
+      <!-- Celengan Akumulatif -->
+      <div class="card">
+        <div class="card-title">🪙 Celengan — Akumulasi Semua Bulan</div>
+        <p
+          style="
+            font-size: 0.72rem;
+            color: var(--text3);
+            margin-bottom: 16px;
+            margin-top: -10px;
+          "
+        >
+          Total yang terkumpul & tersisa dari seluruh bulan yang tercatat
+        </p>
+        <div class="cel-grid" id="celenganGrid"></div>
+        <div class="cel-table-wrap">
+          <table class="cel-table">
+            <thead>
+              <tr>
+                <th>Bulan</th>
+                <th>🏦 Tabungan</th>
+                <th>🛡️ Sisa Cadangan</th>
+                <th>🎉 Sisa Healing</th>
+              </tr>
+            </thead>
+            <tbody id="celenganTbody"></tbody>
+          </table>
+          <div class="empty" id="celenganEmpty" style="display: none">
+            Belum ada data bulan yang tercatat 🌸
+          </div>
         </div>
       </div>
 
@@ -1412,124 +1524,123 @@
         );
       }
 
-      // ── Hitung sisa kebutuhan bulan tertentu (tidak termasuk sisa rollover yang sudah masuk) ──
-      function hitungSisaKebutuhan(bulan) {
-        const rows = data.filter(
-          (d) => (d.bulan || bulanOf(d.tanggal)) === bulan && !d._isRollover,
-        );
-        const totalIn = rows
-          .filter((r) => r.tipe === "pemasukan")
-          .reduce((s, r) => s + r.jml, 0);
-        const outC = rows
-          .filter(
-            (r) => r.tipe === "pengeluaran" && r.kategori === "DanaCadangan",
-          )
-          .reduce((s, r) => s + r.jml, 0);
-        const outH = rows
-          .filter((r) => r.tipe === "pengeluaran" && r.kategori === "Healing")
-          .reduce((s, r) => s + r.jml, 0);
-        const outK =
-          rows
-            .filter((r) => r.tipe === "pengeluaran")
-            .reduce((s, r) => s + r.jml, 0) -
-          outC -
-          outH;
-        const aK = totalIn * RATIO.k;
-        const sisa = aK - outK;
-        return sisa > 0 ? sisa : 0;
-      }
-
-      // ── Dapat bulan berikutnya dari string YYYY-MM ──
-      function nextMonth(ym) {
-        const [y, m] = ym.split("-").map(Number);
-        const d = new Date(y, m, 1); // m is 0-based here since JS months are 0-indexed but m from split is 1-indexed → new Date(y, m) gives next month
-        return (
-          d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0")
-        );
-      }
-
-      // ── Cek & buat entri rollover sisa kebutuhan ke bulan berikutnya ──
-      // Dipanggil setiap kali data berubah atau saat init
-      function prosesRollover() {
-        // Kumpulkan semua bulan yang ada (kecuali bulan saat ini dan setelahnya)
-        const now = new Date();
-        const bulanSekarang =
-          now.getFullYear() + "-" + String(now.getMonth() + 1).padStart(2, "0");
-
+      // ── Hitung akumulatif tabungan, sisa cadangan, sisa healing dari semua bulan ──
+      function hitungCelengan() {
         const allBulan = [
           ...new Set(data.map((d) => d.bulan || bulanOf(d.tanggal))),
         ]
           .filter(Boolean)
           .sort();
 
-        let changed = false;
+        let totalTabungan = 0,
+          totalCadanganSisa = 0,
+          totalHealingSisa = 0;
+        const detailPerBulan = [];
 
         for (const bln of allBulan) {
-          // Hanya proses bulan yang sudah lewat (bukan bulan sekarang)
-          if (bln >= bulanSekarang) continue;
-
-          const nextBln = nextMonth(bln);
-          const [yPrev, mPrev] = bln.split("-").map(Number);
-          const namaBulanPrev = NAMA_BULAN[mPrev - 1];
-
-          // Cek apakah rollover untuk bulan ini ke bulan berikutnya sudah ada
-          const rolloverKey = `rollover_${bln}`;
-          const alreadyExists = data.some(
-            (d) => d._rolloverKey === rolloverKey,
+          const rows = data.filter(
+            (d) => (d.bulan || bulanOf(d.tanggal)) === bln,
           );
+          const totalIn = rows
+            .filter((r) => r.tipe === "pemasukan")
+            .reduce((s, r) => s + r.jml, 0);
+          if (!totalIn) continue;
 
-          if (!alreadyExists) {
-            const sisa = hitungSisaKebutuhan(bln);
-            if (sisa > 0) {
-              // Buat entri rollover tanggal 1 bulan berikutnya
-              const [yNext, mNext] = nextBln.split("-").map(Number);
-              const tanggalRollover = `${yNext}-${String(mNext).padStart(2, "0")}-01`;
+          const outC = rows
+            .filter(
+              (r) => r.tipe === "pengeluaran" && r.kategori === "DanaCadangan",
+            )
+            .reduce((s, r) => s + r.jml, 0);
+          const outH = rows
+            .filter((r) => r.tipe === "pengeluaran" && r.kategori === "Healing")
+            .reduce((s, r) => s + r.jml, 0);
 
-              data.push({
-                id: Date.now() + Math.random(),
-                tanggal: tanggalRollover,
-                bulan: nextBln,
-                tipe: "pemasukan",
-                ket: `Sisa kebutuhan bulan ${namaBulanPrev}`,
-                jml: sisa,
-                kategori: "",
-                _isRollover: true,
-                _rolloverKey: rolloverKey,
-                _rolloverDari: bln,
-              });
-              changed = true;
-            }
-          } else {
-            // Rollover sudah ada — perlu di-recalculate karena data mungkin berubah
-            const existingRollover = data.find(
-              (d) => d._rolloverKey === rolloverKey,
-            );
-            if (existingRollover) {
-              const sisa = hitungSisaKebutuhan(bln);
-              if (sisa > 0) {
-                if (Math.round(existingRollover.jml) !== Math.round(sisa)) {
-                  existingRollover.jml = sisa;
-                  changed = true;
-                }
-              } else {
-                // Tidak ada sisa, hapus rollover
-                data = data.filter((d) => d._rolloverKey !== rolloverKey);
-                changed = true;
-              }
-            }
-          }
+          const aT = totalIn * RATIO.t;
+          const aC = totalIn * RATIO.c;
+          const aH = totalIn * RATIO.h;
+
+          const sisaC = Math.max(0, aC - outC);
+          const sisaH = Math.max(0, aH - outH);
+
+          totalTabungan += aT;
+          totalCadanganSisa += sisaC;
+          totalHealingSisa += sisaH;
+
+          detailPerBulan.push({ bln, aT, aC, aH, outC, outH, sisaC, sisaH });
         }
 
-        if (changed) save();
+        return {
+          totalTabungan,
+          totalCadanganSisa,
+          totalHealingSisa,
+          detailPerBulan,
+        };
+      }
+
+      function renderCelengan() {
+        const {
+          totalTabungan,
+          totalCadanganSisa,
+          totalHealingSisa,
+          detailPerBulan,
+        } = hitungCelengan();
+
+        const detailRows = detailPerBulan
+          .map(
+            (d) => `
+          <tr class="cel-row">
+            <td style="color:var(--text3);font-size:0.72rem;white-space:nowrap">${monthLbl(d.bln)}</td>
+            <td class="amount pos" style="font-size:0.78rem;white-space:nowrap">+${fmt(d.aT)}</td>
+            <td style="font-size:0.78rem;white-space:nowrap;color:${d.sisaC > 0 ? "var(--gold)" : "var(--text3)"}">
+              ${d.sisaC > 0 ? "+" + fmt(d.sisaC) : fmt(0)}
+              ${d.outC > 0 ? `<span style="font-size:0.62rem;color:var(--text3)"> (terpakai ${fmt(d.outC)})</span>` : ""}
+            </td>
+            <td style="font-size:0.78rem;white-space:nowrap;color:${d.sisaH > 0 ? "var(--lavender)" : "var(--text3)"}">
+              ${d.sisaH > 0 ? "+" + fmt(d.sisaH) : fmt(0)}
+              ${d.outH > 0 ? `<span style="font-size:0.62rem;color:var(--text3)"> (terpakai ${fmt(d.outH)})</span>` : ""}
+            </td>
+          </tr>`,
+          )
+          .join("");
+
+        document.getElementById("celenganGrid").innerHTML = `
+          <div class="cel-box cel-t">
+            <div class="cel-icon">🏦</div>
+            <div class="cel-label">Total Tabungan</div>
+            <div class="cel-sub">Akumulasi alokasi 15% semua bulan</div>
+            <div class="cel-val" style="color:var(--mint)">${fmt(totalTabungan)}</div>
+          </div>
+          <div class="cel-box cel-c">
+            <div class="cel-icon">🛡️</div>
+            <div class="cel-label">Sisa Dana Cadangan</div>
+            <div class="cel-sub">Akumulasi sisa yang tidak terpakai</div>
+            <div class="cel-val" style="color:var(--gold)">${fmt(totalCadanganSisa)}</div>
+          </div>
+          <div class="cel-box cel-h">
+            <div class="cel-icon">🎉</div>
+            <div class="cel-label">Sisa Healing & Hiburan</div>
+            <div class="cel-sub">Akumulasi sisa yang tidak terpakai</div>
+            <div class="cel-val" style="color:var(--lavender)">${fmt(totalHealingSisa)}</div>
+          </div>`;
+
+        const tbody = document.getElementById("celenganTbody");
+        const empty = document.getElementById("celenganEmpty");
+        if (!detailPerBulan.length) {
+          tbody.innerHTML = "";
+          empty.style.display = "";
+        } else {
+          empty.style.display = "none";
+          tbody.innerHTML = detailRows;
+        }
       }
 
       window.addEventListener("DOMContentLoaded", () => {
         document.getElementById("inpTanggal").value = new Date()
           .toISOString()
           .slice(0, 10);
-        prosesRollover();
         buildSelects();
         renderBulan();
+        renderCelengan();
         drawBar();
       });
 
@@ -1572,14 +1683,13 @@
           kategori: kat,
         });
         save();
-        // Recalculate rollover setelah tambah transaksi
-        prosesRollover();
         document.getElementById("inpKet").value = "";
         document.getElementById("inpJml").value = "";
         buildSelects();
         document.getElementById("selBulan").value = bulanOf(tanggal);
         document.getElementById("selBulanBar").value = bulanOf(tanggal);
         renderBulan();
+        renderCelengan();
         drawBar();
         showToast("✓ Transaksi ditambahkan");
       }
@@ -1590,87 +1700,12 @@
         data = data.filter((d) => d.id !== id);
         // Jika rollover dihapus manual, tandai sebagai "diabaikan" agar tidak dibuat ulang
         // (kita tidak recreate rollover yang sudah dihapus manual, tapi jika transaksi normal dihapus, recalculate)
-        if (item && item._isRollover) {
-          // Hapus permanen, tambahkan flag di localStorage agar tidak dibuat ulang
-          const ignored = JSON.parse(
-            localStorage.getItem("rollover_ignored") || "[]",
-          );
-          if (!ignored.includes(item._rolloverKey)) {
-            ignored.push(item._rolloverKey);
-            localStorage.setItem("rollover_ignored", JSON.stringify(ignored));
-          }
-        }
         save();
-        prosesRollover();
         buildSelects();
         renderBulan();
+        renderCelengan();
         drawBar();
       }
-
-      // Override prosesRollover untuk cek ignored list
-      const _prosesRolloverOri = prosesRollover;
-      window.prosesRollover = function () {
-        const ignored = JSON.parse(
-          localStorage.getItem("rollover_ignored") || "[]",
-        );
-        const now = new Date();
-        const bulanSekarang =
-          now.getFullYear() + "-" + String(now.getMonth() + 1).padStart(2, "0");
-        const allBulan = [
-          ...new Set(data.map((d) => d.bulan || bulanOf(d.tanggal))),
-        ]
-          .filter(Boolean)
-          .sort();
-        let changed = false;
-        for (const bln of allBulan) {
-          if (bln >= bulanSekarang) continue;
-          const nextBln = nextMonth(bln);
-          const [yPrev, mPrev] = bln.split("-").map(Number);
-          const namaBulanPrev = NAMA_BULAN[mPrev - 1];
-          const rolloverKey = `rollover_${bln}`;
-          if (ignored.includes(rolloverKey)) continue;
-          const alreadyExists = data.some(
-            (d) => d._rolloverKey === rolloverKey,
-          );
-          if (!alreadyExists) {
-            const sisa = hitungSisaKebutuhan(bln);
-            if (sisa > 0) {
-              const [yNext, mNext] = nextBln.split("-").map(Number);
-              const tanggalRollover = `${yNext}-${String(mNext).padStart(2, "0")}-01`;
-              data.push({
-                id: Date.now() + Math.random(),
-                tanggal: tanggalRollover,
-                bulan: nextBln,
-                tipe: "pemasukan",
-                ket: `Sisa kebutuhan bulan ${namaBulanPrev}`,
-                jml: sisa,
-                kategori: "",
-                _isRollover: true,
-                _rolloverKey: rolloverKey,
-                _rolloverDari: bln,
-              });
-              changed = true;
-            }
-          } else {
-            const existingRollover = data.find(
-              (d) => d._rolloverKey === rolloverKey,
-            );
-            if (existingRollover) {
-              const sisa = hitungSisaKebutuhan(bln);
-              if (sisa > 0) {
-                if (Math.round(existingRollover.jml) !== Math.round(sisa)) {
-                  existingRollover.jml = sisa;
-                  changed = true;
-                }
-              } else {
-                data = data.filter((d) => d._rolloverKey !== rolloverKey);
-                changed = true;
-              }
-            }
-          }
-        }
-        if (changed) save();
-      };
 
       function renderBulan() {
         const bulan = document.getElementById("selBulan").value;
@@ -1765,19 +1800,13 @@
             .sort((a, b) => (b.tanggal || "").localeCompare(a.tanggal || ""))
             .map((r) => {
               const k = KATEGORI.find((x) => x.key === r.kategori);
-              const isRollover = !!r._isRollover;
               return `<tr>
                 <td style="color:var(--text3);white-space:nowrap;font-size:0.75rem">${fmtDate(r.tanggal)}</td>
                 <td>
                   ${r.ket}
-                  ${isRollover ? `<span class="sisa-info-tag">↩ rollover</span>` : ""}
                 </td>
                 <td>
-                  ${
-                    isRollover
-                      ? `<span class="badge sisa-kebutuhan">💚 pemasukan</span>`
-                      : `<span class="badge ${r.tipe}">${r.tipe === "pemasukan" ? "💚" : "🌸"} ${r.tipe}</span>`
-                  }
+                  <span class="badge ${r.tipe}">${r.tipe === "pemasukan" ? "💚" : "🌸"} ${r.tipe}</span>
                   ${k ? `<span style="margin-left:5px;font-size:0.78rem">${k.icon} <span style="font-size:0.65rem;color:var(--text3)">${k.key}</span></span>` : ""}
                 </td>
                 <td class="amount ${r.tipe === "pemasukan" ? "pos" : "neg"}" style="white-space:nowrap">
@@ -2053,9 +2082,9 @@
             const dup = imp.length - nw.length;
             data = [...data, ...nw];
             save();
-            prosesRollover();
             buildSelects();
             renderBulan();
+            renderCelengan();
             drawBar();
             document.getElementById("backupMeta").textContent =
               `✅ Import ${nw.length} transaksi${dup ? `, ${dup} duplikat dilewati` : ""}`;
